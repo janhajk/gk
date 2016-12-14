@@ -3,7 +3,7 @@
 * Software: GKPDF.CLASS                                                        		   *
 * Version:  0.5                                                                		   *			
 * Date:     2008-11-04                                                         		   *
-* Author:   Jan Schär 		                                                   		   *
+* Author:   Jan Schï¿½r 		                                                   		   *
 * License:  Freeware                                                           		   *
 *                                                                              		   *
 * You may use and modify this software as you wish.                            		   *
@@ -38,7 +38,7 @@ if (!class_exists('GKPDF')) {
 			$this->EtikettenCol=0;
 		} 
 		
-		// Gewünschte Datei ausgeben
+		// Gewï¿½nschte Datei ausgeben
 		public function getFile() {
 				$t = $this->params['type_what'];
 				if($t[1]){ foreach($this->adressData as $Param){$this->printBriefPage     ($Param);}}
@@ -52,7 +52,7 @@ if (!class_exists('GKPDF')) {
 		}
 		
 		/**
-		 * Parameter für die SQL Abfrage
+		 * Parameter fï¿½r die SQL Abfrage
 		 */
 		public function setParams($arrParams){
 			//dsm($arrParams); //zum debuggen
@@ -79,7 +79,7 @@ if (!class_exists('GKPDF')) {
 			}
 		}
 		
-		// Template für den Serienbrief einlesen
+		// Template fï¿½r den Serienbrief einlesen
 		public function setTemplate($arrParam) {
 		//dsm($arrParam); //zum debuggen
 			$this->tpl = array (
@@ -127,7 +127,7 @@ if (!class_exists('GKPDF')) {
 			$content = $this->parseAdress($arrParam);
 				$tmpTpl = $this->tpl;
 				$this->varReplace($tmpTpl, $content);
-				// Die Null-Beträge rausfiltern, ausser das Option "Beitragsart" ist auf "egal"
+				// Die Null-Betrï¿½ge rausfiltern, ausser das Option "Beitragsart" ist auf "egal"
 				if(($this->params['beitragsart'] <= 3 && $content['betrag'] > 0) || (intval($this->params['beitragsart']) > 3)) {
 					$this->pdf->AddPage();
 					$this->printHeader();
@@ -164,7 +164,7 @@ if (!class_exists('GKPDF')) {
 			//print_r($arrParam);
 			$groupedArrParam = array();
 			
-			// Datensätze nach Spenden-Gruppen aufteilen
+			// Datensï¿½tze nach Spenden-Gruppen aufteilen
 			foreach($arrParam as $k=>$p){
 				if($p['field_spende_beitragsart_value'] == 'Mitglied') {
 					$groupedArrParam['Mitgliederbeitrag'][$k] = $p;
@@ -185,7 +185,7 @@ if (!class_exists('GKPDF')) {
 			foreach($groupedArrParam as $term=>$arrParam) {
 				$this->pdf->SetFillColor(150,210,150);$this->pdf->Cell(282,10,$term,0,0,'',1);$this->pdf->ln();
 				$total = 0;
-				foreach($arrParam as $Param){	// Einzelne Adresssätze durchgehen
+				foreach($arrParam as $Param){	// Einzelne Adresssï¿½tze durchgehen
 					$fill = ($fill)?0:1;
 					$fill?$this->pdf->SetFillColor(200):'';
 					$adresse = $this->parseAdress($Param);
@@ -209,6 +209,11 @@ if (!class_exists('GKPDF')) {
 				$this->pdf->SetFillColor(160,150,210);$this->pdf->Cell(282,4,'Total: '.number_format($total,2,".","`"),0,0,'R',1);$this->pdf->Ln();$this->pdf->Ln();
 				$tTotal += $total;
 			}
+         if ($this->pdf->GetY() >= 180) {
+            $this->spenden_footer($this->params['date_von']);
+            $this->pdf->AddPage('L');	// beginnt Spendenliste auf neuer Seite
+            $this->page++;
+         }
 			$this->pdf->Ln();$this->pdf->Ln(20);$this->pdf->Ln();$this->pdf->SetFillColor(160,150,210);$this->pdf->Cell(282,4,'Anzahl: '.$i.'; Total alles : '.number_format($tTotal,2,".","`"),0,0,'R',1);
 			$this->spenden_footer($this->params['date_von']);
 		}
@@ -230,8 +235,8 @@ if (!class_exists('GKPDF')) {
 		}
 		
 		/**
-		 * Exportiert die Datensätze nach Excel
-		 * @arrParam array die Datensätze
+		 * Exportiert die Datensï¿½tze nach Excel
+		 * @arrParam array die Datensï¿½tze
 		 */
 		private function exportExcel($arrParam){
 			$xls = new Cxls(date('Y-m-d',time()).'_GassenkuecheDatenExport',$arrParam);
@@ -247,9 +252,9 @@ if (!class_exists('GKPDF')) {
 					"field_profil_ort_value" 				=> 'Ort',
 					"field_spende_betrag_value" 			=> 'Betrag',
 					"field_profil_telp_value" 				=> 'Telefon privat',
-					"field_profil_telg_value" 				=> 'Telefon Geschäft',
+					"field_profil_telg_value" 				=> 'Telefon Geschï¿½ft',
 					"field_profil_handy_value" 				=> 'Handy',
-					"field_profil_faxg_value" 				=> 'Fax Geschäft',
+					"field_profil_faxg_value" 				=> 'Fax Geschï¿½ft',
 					"field_profil_mail_email" 				=> 'E-Mail',
 					"field_profil_geburtstag_value" 		=> 'Geburtstag',
 					"field_profil_eintritt_value" 			=> 'Eintritt',
@@ -269,7 +274,7 @@ if (!class_exists('GKPDF')) {
 		
 		/*
 		 * Druckt den Header eines Papiers
-		 * Beinhaltet das Gassenküchen-Logo auf der rechten Seite
+		 * Beinhaltet das Gassenkï¿½chen-Logo auf der rechten Seite
 		 * Ist das Papier in Landscape, muss noch eine Einzug dazu
 		 * gerechnet werden: $landscape=90 ist ein guter Wert
 		 */
@@ -415,7 +420,7 @@ if (!class_exists('GKPDF')) {
 					elseif($gruppe=='fest' || $gruppe=='freiwillig aktiv' || $gruppe=='freiwillig passiv' || $gruppe=='Praktikant' || $gruppe=='Seitenwechsler') {
 						$sg['Team'] = $gruppe;
 					}
-					elseif($gruppe=='Lieferanten' || utf8_decode($gruppe)=='PüB') {
+					elseif($gruppe=='Lieferanten' || utf8_decode($gruppe)=='Pï¿½B') {
 						$sg['allgemeine Adresse'] = $gruppe;
 					}
 					elseif($gruppe=='keine') {

@@ -122,14 +122,15 @@ function _gk_generate_spendenliste($form, &$form_state){
 			}else{
 				$rows[$row['field_spende_spender_nid']] = $row;
 			}
-		}else{
+		}
+      else {
 			$rows[] = $row;
 		}
 	}
 	$i = 0;
 
 	$pdf = new Gkpdf();
-	
+
 	$pdf->setRows($rows);
 	$pdf->setParams($form_state['values']);
 	$pdf->getFile();
