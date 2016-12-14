@@ -112,7 +112,7 @@ function _gk_generate_spendenliste($form, &$form_state){
    }
    error_log($sql.implode(" AND ", $where).$where_sp);
 	//  $result = taxonomy_select_nodes($ar_tids);
-	$result = db_query($sql.implode(" AND ", $where).$where_sp, $values);
+	$result = db_query($sql.' WHERE '.implode(" AND ", $where).$where_sp, $values);
 
 	$rows = array();
 	while($row = db_fetch_array($result)){
