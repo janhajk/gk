@@ -92,7 +92,7 @@ function _gk_generate_spendenliste($form, &$form_state){
       }
       $where_sp = " AND cts.field_spende_datum_value > '%s'";
       $where_sp .= " AND cts.field_spende_datum_value < '%s'";
-      $values[] = $to_date);
+      $values[] = $to_date;
    }
 
    // Beitragsart (> Select Option)
