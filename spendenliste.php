@@ -43,7 +43,7 @@ function _gk_generate_spendenliste($form, &$form_state){
    $filter = [];
    for ($i = 0; $i < count($ar_tids); $i++) {
       $filter[] = 'tn.tid = %d';
-      $values[] = array_merge($values[], $ar_tids[i]);
+      $values[] = array_merge($values, $ar_tids[i]);
    }
    $where[] = '('.implode(" OR ", $filter).')';
 
