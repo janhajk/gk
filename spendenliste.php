@@ -33,9 +33,9 @@ function _gk_generate_spendenliste($form, &$form_state){
 
    $where = [];
    $filter = [];
-   error_log(print_r($ar_tids,1));
    for ($i = 0; $i < count($ar_tids); $i++) {
       $filter[] = 'tn.tid = %d';
+      error_log('Durchgang '.$i.':'.print_r($ar_tids[i],1));
       $values[] = $ar_tids[i];
    }
    $where[] = '('.implode(" OR ", $filter).')';
