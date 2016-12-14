@@ -33,7 +33,7 @@ function _gk_generate_spendenliste($form, &$form_state){
 
    $where = [];
    $filter = [];
-   for ($tid in $ar_tids) {
+   foreach ($ar_tids as $tid) {
       $filter[] = 'tn.tid = %d';
       $values[] = $tid;
    }
