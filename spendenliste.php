@@ -39,18 +39,17 @@ function _gk_generate_spendenliste($form, &$form_state){
       "ctp.nid = tn.nid",
       "cts.field_spende_spender_nid = ctp.nid"
    ];
-   $sql = "SELECT * FROM ".implode(",", $tables)." WHERE ".implode(" AND ", $where);
+   $sql = "SELECT * FROM ".implode(",", $tables)." ";
    $filter = [];
    for ($i = 0; $i < count($ar_tids); $i++) {
       $filter[] = 'tn.tid = %d';
       $values[] = $ar_tids[i];
    }
-   $where = implode(" OR ", $filter);
-   $where = ' AND ('.$filter.')';
+   $where[] = '('.implode(" OR ", $filter).')';
 
 	// Jahresbericht
 	if ($form_state['values']['im_jahresbericht'] != 99) {
-		$where .= "AND ctp.field_profil_imjahresbericht_value = '%s' ";
+		$where[] = "ctp.field_profil_imjahresbericht_value = '%s'";
 		if ($form_state['values']['im_jahresbericht'] == 0) {
 			$values[] = 'nein';
 		} else {
@@ -61,7 +60,7 @@ function _gk_generate_spendenliste($form, &$form_state){
 
 	// Verdankungsart
 	if ($form_state['values']['verdankungsart'] != 99) {
-		$where .= "AND ctp.field_profil_verdankung_value = '%s' ";
+		$where[] = "ctp.field_profil_verdankung_value = '%s'";
 		if ($form_state['values']['verdankungsart'] == 1) {
 			$values[] = 'keine';
 		}
@@ -111,9 +110,9 @@ function _gk_generate_spendenliste($form, &$form_state){
          $values[] = 'Spender';
       }
    }
-   error_log($sql.$where.$where_sp);
+   error_log($sql.implode(" AND ", $where).$where_sp);
 	//  $result = taxonomy_select_nodes($ar_tids);
-	$result = db_query($sql . $where . $where_sp, $values);
+	$result = db_query($sql.implode(" AND ", $where).$where_sp, $values);
 
 	$rows = array();
 	while($row = db_fetch_array($result)){
