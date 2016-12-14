@@ -232,9 +232,10 @@ function gk_serienbrief_taxonomy_form() {
 	$form['col_1'] = array(
 		'#value'	=>	'<div class="left">',
 	);
-	
+
+	// Erstellt die fünf Profiltypen (Spender, Mitglied, Team, allg Adressen, Sonstiges)
+	// Lädt den Taxonomy-Tree und hängt diesen als Option-Felder an
 	$i = 1;
-	//go through the taxonomy and make some nice forms with the information there
 	foreach ($vocabs as $vocab) {
 		$tmp_options = taxonomy_get_tree($vocab->vid);
 		$options = array (
@@ -250,12 +251,10 @@ function gk_serienbrief_taxonomy_form() {
 			'#attributes' => array (
 				'class' => 'gk_vocab_class_' . $i
 		),
-
-			
 		);
 		$i++;
 	}
-	
+
 	$form['col_2'] = array(
 		'#value'	=>	'</div>',
 	);
