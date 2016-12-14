@@ -11,10 +11,6 @@ function _gk_generate_spendenliste($form, &$form_state){
    // FPDF Header generieren
 	gk_insert_pdf_header();
 
-   // drupal_query übergibt die Values separat,
-   // deshalb werden diese in einem Array gespeichert
-   $values = [];
-
 	// Lädt die Auswahl der Spendertypen
    $ar_tids = array ();
    for($i=1;$i<=5;$i++){
@@ -30,22 +26,24 @@ function _gk_generate_spendenliste($form, &$form_state){
    // Erstellen der Query;
    // Die Tabelle term_node enthält alle Term-Node Verknüpfungen
    // Es werden also alle Terms geladen, die selektiert wurden
-   $tables = [
-      "{term_node} AS tn",
-      "{content_type_profile} AS ctp",
-      "{content_type_spende} AS cts"
-   ];
-   $where = [
-      "ctp.nid = tn.nid",
-      "cts.field_spende_spender_nid = ctp.nid"
-   ];
-   $sql = "SELECT * FROM ".implode(",", $tables);
+
+   // drupal_query übergibt die Values separat,
+   // deshalb werden diese in einem Array gespeichert
+   $values = [];
+
+   $where = [];
    $filter = [];
    for ($i = 0; $i < count($ar_tids); $i++) {
       $filter[] = 'tn.tid = %d';
-      $values[] = array_merge($values, $ar_tids[i]);
+      $values[] = $ar_tids[i];
    }
    $where[] = '('.implode(" OR ", $filter).')';
+
+   $join = [
+      "LEFT JOIN term_node as tn ON (cts.field_spende_spender_nid = tn.nid)",
+      "LEFT JOIN content_type_profil as ctp ON (cts.field_spende_spender_nid = ctp.nid)"
+   ];
+   $sql = "SELECT * FROM content_type_spende as cts ".implode(" ",$join);
 
 	// Jahresbericht
 	if ($form_state['values']['im_jahresbericht'] != 99) {
