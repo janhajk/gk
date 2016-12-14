@@ -39,7 +39,7 @@ function _gk_generate_spendenliste($form, &$form_state){
       "ctp.nid = tn.nid",
       "cts.field_spende_spender_nid = ctp.nid"
    ];
-   $sql = "SELECT * FROM ".implode(",", $tables)." ";
+   $sql = "SELECT * FROM ".implode(",", $tables);
    $filter = [];
    for ($i = 0; $i < count($ar_tids); $i++) {
       $filter[] = 'tn.tid = %d';
@@ -111,6 +111,7 @@ function _gk_generate_spendenliste($form, &$form_state){
       }
    }
    error_log($sql.' WHERE '.implode(" AND ", $where).$where_sp);
+   error_log(print_r($values,1));
 	//  $result = taxonomy_select_nodes($ar_tids);
 	$result = db_query($sql.' WHERE '.implode(" AND ", $where).$where_sp, $values);
 
