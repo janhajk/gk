@@ -111,7 +111,7 @@ function _gk_generate_spendenliste($form, &$form_state){
          $values[] = 'Spender';
       }
    }
-
+   error_log($sql.$where.$where_sp);
 	//  $result = taxonomy_select_nodes($ar_tids);
 	$result = db_query($sql . $where . $where_sp, $values);
 
