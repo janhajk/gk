@@ -40,8 +40,8 @@ function _gk_generate_spendenliste($form, &$form_state){
    $where[] = '('.implode(" OR ", $filter).')';
 
    $join = [
-      "LEFT JOIN content_type_profile as ctp ON (cts.field_spende_spender_nid = ctp.nid)"
-      "LEFT JOIN term_node as tn ON (cts.field_spende_spender_nid = tn.nid)",
+      "LEFT JOIN content_type_profile as ctp ON (cts.field_spende_spender_nid = ctp.nid)",
+      "LEFT JOIN term_node as tn ON (cts.field_spende_spender_nid = tn.nid)"
    ];
    $sql = "SELECT * FROM content_type_spende as cts ".implode(" ",$join);
 
