@@ -285,7 +285,7 @@ function gk_serienbrief_taxonomy_form() {
 
 
 	);
-	
+
 	$form['beitragsart'] = array(
 		'#type' => 'radios',
 		'#title' => t('Beitragsart'),
@@ -327,6 +327,7 @@ function gk_serienbrief_taxonomy_form() {
 
 	);
 
+   // Template Vorlage
 	$sql = "SELECT * FROM {node} WHERE type = '%s'";
 	$result = db_query($sql, 'serienbrief_template');
 	$options = array();

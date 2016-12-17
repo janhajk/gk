@@ -92,7 +92,7 @@ function _gk_generate_spendenliste($form, &$form_state){
       $values[] = $to_date;
    }
 
-   // Beitragsart (> Select Option)
+   // Beitragsart (Select Option)
    if($form_state['values']['beitragsart'] != 99){
       if ($form_state['values']['beitragsart'] == '1') {
          $where_sp .= " AND field_spende_beitragsart_value = '%s' ";
@@ -109,7 +109,9 @@ function _gk_generate_spendenliste($form, &$form_state){
       }
    }
 	//  $result = taxonomy_select_nodes($ar_tids);
-	$result = db_query($sql.' WHERE '.implode(" AND ", $where).$where_sp, $values);
+	$sql = $sql.' WHERE '.implode(" AND ", $where).$where_sp;
+   error_log($sql);
+	$result = db_query($sql, $values);
 
 	$rows = array();
 	while($row = db_fetch_array($result)){
