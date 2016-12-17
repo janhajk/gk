@@ -163,7 +163,7 @@ if (!class_exists('GKPDF')) {
 			$fill = 0;
 			//print_r($arrParam);
 			$groupedArrParam = array();
-			
+
 			// Datensütze nach Spenden-Gruppen aufteilen
 			foreach($arrParam as $k=>$p){
 				if($p['field_spende_beitragsart_value'] == 'Mitglied') {
@@ -183,7 +183,7 @@ if (!class_exists('GKPDF')) {
 			$tTotal = 0;
 			$i = 0; // Anzahl Spenden
 			foreach($groupedArrParam as $term=>$arrParam) {
-            if ($term === '') $term = 'keine Gruppenzuordnung';
+            //if ($term === '') $term = 'keine Gruppenzuordnung';
 				$this->pdf->SetFillColor(150,210,150);$this->pdf->Cell(282,10,$term,0,0,'',1);$this->pdf->ln();
 				$total = 0;
 				foreach($arrParam as $Param){	// Einzelne Adresssütze durchgehen
