@@ -111,6 +111,7 @@ function _gk_generate_spendenliste($form, &$form_state){
 	//  $result = taxonomy_select_nodes($ar_tids);
 	$sql = $sql.' WHERE '.implode(" AND ", $where).$where_sp;
    error_log($sql);
+   error_log($values);
 	$result = db_query($sql, $values);
 
 	$rows = array();
