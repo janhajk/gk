@@ -148,7 +148,7 @@ if (!class_exists('GKPDF')) {
 					$this->printFooter($tmpTpl['footer']);
 				}
 		}
-		
+
 		/**
 		 * Erstellt die Spendenliste
 		 * @param array $arrParam Das Array mit den Adress- und Spendendaten von allen
@@ -227,14 +227,14 @@ if (!class_exists('GKPDF')) {
 		 */
 		private function printEtikettenLabel($adresse) {
 			$adresse = $this->parseAdress($adresse);
-			$this->EtikettenCount++;		
+			$this->EtikettenCount++;
 			if($this->EtikettenCount==1 || $this->EtikettenCount==25) { $this->pdf->AddPage(); }
 			if($this->EtikettenCount==25) { $this->EtikettenCount=1;}
 			$y = (ceil($this->EtikettenCount / 3)-1)*37+5;
 			$x = ($this->EtikettenCount-(ceil($this->EtikettenCount / 3)-1)*3-1)*71+5;
 			$this->printAdresse($x,$y,$adresse);
 		}
-		
+
 		/**
 		 * Exportiert die Datensütze nach Excel
 		 * @arrParam array die Datensütze
@@ -242,37 +242,37 @@ if (!class_exists('GKPDF')) {
 		private function exportExcel($arrParam){
 			$xls = new Cxls(date('Y-m-d',time()).'_GassenkuecheDatenExport',$arrParam);
 			$xls->setHeaderRow(Array(
-					"vid" 									=> 'node-id',
+					"vid" 									   => 'node-id',
 					/* "nid" 									=> 'nid', */
-					"field_profil_firma_value" 				=> 'Firma',
+					"field_profil_firma_value" 			=> 'Firma',
 					"field_profil_zusatz_value" 			=> 'Zusatz',
 					"field_profil_vorname_value" 			=> 'Vorname',
-					"field_profil_nachname_value" 			=> 'Nachname',
+					"field_profil_nachname_value" 		=> 'Nachname',
 					"field_profil_strasse_value" 			=> 'Strasse',
 					"field_profil_plz_value" 				=> 'PLZ',
 					"field_profil_ort_value" 				=> 'Ort',
 					"field_spende_betrag_value" 			=> 'Betrag',
 					"field_profil_telp_value" 				=> 'Telefon privat',
-					"field_profil_telg_value" 				=> 'Telefon Geschüft',
-					"field_profil_handy_value" 				=> 'Handy',
-					"field_profil_faxg_value" 				=> 'Fax Geschüft',
+					"field_profil_telg_value" 				=> 'Telefon Geschäft',
+					"field_profil_handy_value" 			=> 'Handy',
+					"field_profil_faxg_value" 				=> 'Fax Geschäft',
 					"field_profil_mail_email" 				=> 'E-Mail',
 					"field_profil_geburtstag_value" 		=> 'Geburtstag',
-					"field_profil_eintritt_value" 			=> 'Eintritt',
+					"field_profil_eintritt_value" 		=> 'Eintritt',
 					"field_profil_verdankung_value" 		=> 'Verdankung',
-					"field_profil_imjahresbericht_value" 	=> 'Jahresbericht',
+					"field_profil_imjahresbericht_value"=> 'Jahresbericht',
 					"field_profil_memo_value" 				=> 'Memo',
-					/* "field_profile_adresse_id_value" 		=> 'Adresse ID', */
+					/* "field_profile_adresse_id_value" => 'Adresse ID', */
 					"field_profil_inaktiv_value" 			=> 'Inaktiv',
-					"terms"									=> 'Gruppen',
+					"terms"									   => 'Gruppen',
 					"field_profil_anrede_value" 			=> 'Anrede',
 					"field_profil_briefanrede_value"		=> 'Briefanrede',
-					"field_profil_anredespezial_value" 		=> 'Anrede spezial',
-					"field_profil_briefanredespez_value" 	=> 'Briefanrede spezial'
+					"field_profil_anredespezial_value" 	=> 'Anrede spezial',
+					"field_profil_briefanredespez_value"=> 'Briefanrede spezial'
 			));
 			$xls->output();
 		}
-		
+
 		/*
 		 * Druckt den Header eines Papiers
 		 * Beinhaltet das Gassenküchen-Logo auf der rechten Seite
