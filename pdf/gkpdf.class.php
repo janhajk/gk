@@ -3,7 +3,7 @@
 * Software: GKPDF.CLASS                                                        		   *
 * Version:  0.5                                                                		   *			
 * Date:     2008-11-04                                                         		   *
-* Author:   Jan Sch�r 		                                                   		   *
+* Author:   Jan Schür 		                                                   		   *
 * License:  Freeware                                                           		   *
 *                                                                              		   *
 * You may use and modify this software as you wish.                            		   *
@@ -38,7 +38,7 @@ if (!class_exists('GKPDF')) {
 			$this->EtikettenCol=0;
 		} 
 		
-		// Gew�nschte Datei ausgeben
+		// Gewünschte Datei ausgeben
 		public function getFile() {
 				$t = $this->params['type_what'];
 				if($t[1]){ foreach($this->adressData as $Param){$this->printBriefPage     ($Param);}}
@@ -52,7 +52,7 @@ if (!class_exists('GKPDF')) {
 		}
 		
 		/**
-		 * Parameter f�r die SQL Abfrage
+		 * Parameter für die SQL Abfrage
 		 */
 		public function setParams($arrParams){
 			//dsm($arrParams); //zum debuggen
@@ -79,7 +79,7 @@ if (!class_exists('GKPDF')) {
 			}
 		}
 		
-		// Template f�r den Serienbrief einlesen
+		// Template für den Serienbrief einlesen
 		public function setTemplate($arrParam) {
 		//dsm($arrParam); //zum debuggen
 			$this->tpl = array (
@@ -127,7 +127,7 @@ if (!class_exists('GKPDF')) {
 			$content = $this->parseAdress($arrParam);
 				$tmpTpl = $this->tpl;
 				$this->varReplace($tmpTpl, $content);
-				// Die Null-Betr�ge rausfiltern, ausser das Option "Beitragsart" ist auf "egal"
+				// Die Null-Betrüge rausfiltern, ausser das Option "Beitragsart" ist auf "egal"
 				if(($this->params['beitragsart'] <= 3 && $content['betrag'] > 0) || (intval($this->params['beitragsart']) > 3)) {
 					$this->pdf->AddPage();
 					$this->printHeader();
@@ -164,7 +164,7 @@ if (!class_exists('GKPDF')) {
 			//print_r($arrParam);
 			$groupedArrParam = array();
 			
-			// Datens�tze nach Spenden-Gruppen aufteilen
+			// Datensütze nach Spenden-Gruppen aufteilen
 			foreach($arrParam as $k=>$p){
 				if($p['field_spende_beitragsart_value'] == 'Mitglied') {
 					$groupedArrParam['Mitgliederbeitrag'][$k] = $p;
@@ -183,9 +183,10 @@ if (!class_exists('GKPDF')) {
 			$tTotal = 0;
 			$i = 0; // Anzahl Spenden
 			foreach($groupedArrParam as $term=>$arrParam) {
+            if ($term === '') $term = 'keine Gruppenzuordnung';
 				$this->pdf->SetFillColor(150,210,150);$this->pdf->Cell(282,10,$term,0,0,'',1);$this->pdf->ln();
 				$total = 0;
-				foreach($arrParam as $Param){	// Einzelne Adresss�tze durchgehen
+				foreach($arrParam as $Param){	// Einzelne Adresssütze durchgehen
 					$fill = ($fill)?0:1;
 					$fill?$this->pdf->SetFillColor(200):'';
 					$adresse = $this->parseAdress($Param);
@@ -217,9 +218,9 @@ if (!class_exists('GKPDF')) {
 			$this->pdf->Ln();$this->pdf->Ln(20);$this->pdf->Ln();$this->pdf->SetFillColor(160,150,210);$this->pdf->Cell(282,4,'Anzahl: '.$i.'; Total alles : '.number_format($tTotal,2,".","`"),0,0,'R',1);
 			$this->spenden_footer($this->params['date_von']);
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Druckt eine Adresse auf das Etikettenblatt; setzt automatisch die richtige Position auf der Seite
 		 * @param array $adresse Das Array mit den Adressen
@@ -235,8 +236,8 @@ if (!class_exists('GKPDF')) {
 		}
 		
 		/**
-		 * Exportiert die Datens�tze nach Excel
-		 * @arrParam array die Datens�tze
+		 * Exportiert die Datensütze nach Excel
+		 * @arrParam array die Datensütze
 		 */
 		private function exportExcel($arrParam){
 			$xls = new Cxls(date('Y-m-d',time()).'_GassenkuecheDatenExport',$arrParam);
@@ -252,9 +253,9 @@ if (!class_exists('GKPDF')) {
 					"field_profil_ort_value" 				=> 'Ort',
 					"field_spende_betrag_value" 			=> 'Betrag',
 					"field_profil_telp_value" 				=> 'Telefon privat',
-					"field_profil_telg_value" 				=> 'Telefon Gesch�ft',
+					"field_profil_telg_value" 				=> 'Telefon Geschüft',
 					"field_profil_handy_value" 				=> 'Handy',
-					"field_profil_faxg_value" 				=> 'Fax Gesch�ft',
+					"field_profil_faxg_value" 				=> 'Fax Geschüft',
 					"field_profil_mail_email" 				=> 'E-Mail',
 					"field_profil_geburtstag_value" 		=> 'Geburtstag',
 					"field_profil_eintritt_value" 			=> 'Eintritt',
@@ -274,7 +275,7 @@ if (!class_exists('GKPDF')) {
 		
 		/*
 		 * Druckt den Header eines Papiers
-		 * Beinhaltet das Gassenk�chen-Logo auf der rechten Seite
+		 * Beinhaltet das Gassenküchen-Logo auf der rechten Seite
 		 * Ist das Papier in Landscape, muss noch eine Einzug dazu
 		 * gerechnet werden: $landscape=90 ist ein guter Wert
 		 */
@@ -405,9 +406,9 @@ if (!class_exists('GKPDF')) {
 			if (isset ($arrParam['field_spende_betrag_value'])) {
 				$content['betrag'] = utf8_decode($arrParam['field_spende_betrag_value']);
 			}
-			return $content;	
+			return $content;
 		}
-		
+
 		private function getGruppe($terms) {
 			$sg = array('Spender'=>'','Mitglied'=>'','Team'=>'','allgemeine Adresse'=>'','Sonstiges'=>'');
 			foreach($terms as $gruppe) {
@@ -420,16 +421,17 @@ if (!class_exists('GKPDF')) {
 					elseif($gruppe=='fest' || $gruppe=='freiwillig aktiv' || $gruppe=='freiwillig passiv' || $gruppe=='Praktikant' || $gruppe=='Seitenwechsler') {
 						$sg['Team'] = $gruppe;
 					}
-					elseif($gruppe=='Lieferanten' || utf8_decode($gruppe)=='P�B') {
+					elseif($gruppe=='Lieferanten' || utf8_decode($gruppe)=='PüB') {
 						$sg['allgemeine Adresse'] = $gruppe;
 					}
-					elseif($gruppe=='keine') {
+               else {
+					//elseif($gruppe=='keine') {
 						$sg['Sonstiges'] = $gruppe;
 					}
 			}
 			return $sg;
 		}
-		
+
 		/**
 		 * Ersetzt die String-Variablen
 		 * @param array &$arrParam Das Array wo ersetzt werden soll
@@ -441,7 +443,7 @@ if (!class_exists('GKPDF')) {
 			$arrParam = str_ireplace('%nachname%',$content['nachname'],$arrParam);
 			$arrParam = str_ireplace('%firma%',   $content['firma'],   $arrParam);
 		}
-		
+
 		private function spenden_footer($month) {
 			$this->pdf->SetFont('arial', '', 8);
 			$this->pdf->Text(10,205,'Spendenliste vom: '.$month);
