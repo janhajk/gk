@@ -22,8 +22,6 @@ function _gk_generate_spendenliste($form, &$form_state){
          }
       }
    }
-   // Es gibt Spender ohne Gruppenzuordnung (möglicherweise ungewollt)
-   $ar_tids[] = "NULL";
 
    // Erstellen der Query;
    // Die Tabelle term_node enthält alle Term-Node Verknüpfungen
@@ -39,6 +37,7 @@ function _gk_generate_spendenliste($form, &$form_state){
       $filter[] = 'tn.tid = %d';
       $values[] = $tid;
    }
+   $filter[] = 'tn.tid IS NULL';
    $where[] = '('.implode(" OR ", $filter).')';
 
    $join = [
