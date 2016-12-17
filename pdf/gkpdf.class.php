@@ -424,8 +424,8 @@ if (!class_exists('GKPDF')) {
 					elseif($gruppe=='Lieferanten' || utf8_decode($gruppe)=='PüB') {
 						$sg['allgemeine Adresse'] = $gruppe;
 					}
-               else {
-					//elseif($gruppe=='keine') {
+               //else {
+					elseif($gruppe=='keine') {
 						$sg['Sonstiges'] = $gruppe;
 					}
 			}
