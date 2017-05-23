@@ -41,7 +41,7 @@ if (!class_exists('GKPDF')) {
 		// Gewünschte Datei ausgeben
 		public function getFile() {
 				$t = $this->params['type_what'];
-            print '<pre>'.print_r($this->adressData,1).'</pre>';
+            //print '<pre>'.print_r($this->adressData,1).'</pre>';
 				if($t[1]){ foreach($this->adressData as $Param){$this->printBriefPage     ($Param);}}
 				if($t[3]){ foreach($this->adressData as $Param){$this->printEtikettenLabel($Param);}}
 				if($t[4]){ $this->printSpendenPage($this->adressData);}
@@ -370,7 +370,8 @@ if (!class_exists('GKPDF')) {
 				'anredespezial' => '',
 				'briefanredespezial' => '',
 				'betrag' => '',
-            'spendendatum' => '',
+            'spendendatum_von' => '',
+            'spendendatum_bis' => '',
 			);
 			if (isset ($arrParam['field_profil_vorname_value'])) {
 				$content['vorname'] = utf8_decode($arrParam['field_profil_vorname_value']);
@@ -408,6 +409,12 @@ if (!class_exists('GKPDF')) {
 			if (isset ($arrParam['field_spende_betrag_value'])) {
 				$content['betrag'] = utf8_decode($arrParam['field_spende_betrag_value']);
 			}
+			if (isset ($arrParam['spendendatum_von'])) {
+				$content['spendendatum_von'] = utf8_decode($arrParam['spendendatum_von']);
+			}
+			if (isset ($arrParam['spendendatum_bis'])) {
+				$content['spendendatum_bis'] = utf8_decode($arrParam['spendendatum_bis']);
+			}
 			return $content;
 		}
 
@@ -444,7 +451,8 @@ if (!class_exists('GKPDF')) {
 			$arrParam = str_ireplace('%vorname%', $content['vorname'], $arrParam);
 			$arrParam = str_ireplace('%nachname%',$content['nachname'],$arrParam);
 			$arrParam = str_ireplace('%firma%',   $content['firma'],   $arrParam);
-         $arrParam = str_ireplace('%spendendatum%',   $content['firma'],   $arrParam);
+         $arrParam = str_ireplace('%spendendatum_von%',   $content['spendendatum_von'],   $arrParam);
+         $arrParam = str_ireplace('%spendendatum_bis%',   $content['spendendatum_bis'],   $arrParam);
 		}
 
 		private function spenden_footer($month) {
