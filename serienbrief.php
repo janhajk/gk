@@ -17,11 +17,11 @@ function _gk_send_serienbrief_general($form, & $form_state){
 				}
 	}
 	if($form_state['values']['date_von'] == '' && $form_state['values']['date_bis'] == ''){
-		
+
 	}else{
-		
+
 	}
-	
+
 	$sql = "SELECT DISTINCT(tn.nid) FROM {term_node} AS tn, " .
 				"{content_type_profile} AS ctp LEFT JOIN {content_type_spende} AS cts ON ctp.nid = cts.field_spende_spender_nid " . 
 				"WHERE " . 

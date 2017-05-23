@@ -1,7 +1,7 @@
 <?php
 /***************************************************************************************
 * Software: GKPDF.CLASS                                                        		   *
-* Version:  0.5                                                                		   *			
+* Version:  0.5                                                                		   *
 * Date:     2008-11-04                                                         		   *
 * Author:   Jan Schür 		                                                   		   *
 * License:  Freeware                                                           		   *
@@ -36,21 +36,22 @@ if (!class_exists('GKPDF')) {
 			$this->EtikettenCount=0;
 			$this->EtikettenRow=0;
 			$this->EtikettenCol=0;
-		} 
-		
+		}
+
 		// Gewünschte Datei ausgeben
 		public function getFile() {
 				$t = $this->params['type_what'];
+            print '<pre>'.print_r($this->adressData,1).'</pre>';
 				if($t[1]){ foreach($this->adressData as $Param){$this->printBriefPage     ($Param);}}
-				if($t[3]){ foreach($this->adressData as $Param){$this->printEtikettenLabel($Param);}}		
+				if($t[3]){ foreach($this->adressData as $Param){$this->printEtikettenLabel($Param);}}
 				if($t[4]){ $this->printSpendenPage($this->adressData);}
 				if($t[1]){ $this->pdf->Output(date('Y-m-d',time()).$this->filename, 'D'); }
 				if($t[3]){ $this->pdf->Output(date('Y-m-d',time()).$this->filename, 'D');$this->pdf->Output(date('Y-m-d',time()).$this->filename, 'D'); }	// Braucht es irgendwie zweimal, sonst gehts nicht...
 				if($t[4]){ $this->pdf->Output(date('Y-m-d',time()).$this->filename, 'D'); }
 				if($this->params['type_what'][2]){ $this->exportExcel($this->adressData); }
-				
+
 		}
-		
+
 		/**
 		 * Parameter für die SQL Abfrage
 		 */
@@ -58,7 +59,7 @@ if (!class_exists('GKPDF')) {
 			//dsm($arrParams); //zum debuggen
 			$this->params = $arrParams;
 		}
-		
+
 		/**
 		 * set the rows from the db, containing the profile information and
 		 * the betrag 
@@ -78,7 +79,7 @@ if (!class_exists('GKPDF')) {
 				}
 			}
 		}
-		
+
 		// Template für den Serienbrief einlesen
 		public function setTemplate($arrParam) {
 		//dsm($arrParam); //zum debuggen
@@ -118,7 +119,7 @@ if (!class_exists('GKPDF')) {
 		*                              Protected methods                               *
 		*                                                                              *
 		*******************************************************************************/
-		
+
 		/**
 		 * Schreibt eine Serienbrief-Seite
 		 * @param array $arrParam Das Array mit den Adressdaten
@@ -127,7 +128,7 @@ if (!class_exists('GKPDF')) {
 			$content = $this->parseAdress($arrParam);
 				$tmpTpl = $this->tpl;
 				$this->varReplace($tmpTpl, $content);
-				// Die Null-Betrüge rausfiltern, ausser das Option "Beitragsart" ist auf "egal"
+				// Die Null-Beträge rausfiltern, ausser das Option "Beitragsart" ist auf "egal"
 				if(($this->params['beitragsart'] <= 3 && $content['betrag'] > 0) || (intval($this->params['beitragsart']) > 3)) {
 					$this->pdf->AddPage();
 					$this->printHeader();
@@ -350,7 +351,7 @@ if (!class_exists('GKPDF')) {
 			$this->pdf->Write(3, $par);
 			$this->pdf->SetLeftMargin($leftMargin);
 		}
-		
+
 		/*
 		 * Parst die Adresse anhand des Inputs $arrParam
 		 * returns Array $content
@@ -368,7 +369,8 @@ if (!class_exists('GKPDF')) {
 				'briefanrede' => '',
 				'anredespezial' => '',
 				'briefanredespezial' => '',
-				'betrag' => ''
+				'betrag' => '',
+            'spendendatum' => '',
 			);
 			if (isset ($arrParam['field_profil_vorname_value'])) {
 				$content['vorname'] = utf8_decode($arrParam['field_profil_vorname_value']);
@@ -442,6 +444,7 @@ if (!class_exists('GKPDF')) {
 			$arrParam = str_ireplace('%vorname%', $content['vorname'], $arrParam);
 			$arrParam = str_ireplace('%nachname%',$content['nachname'],$arrParam);
 			$arrParam = str_ireplace('%firma%',   $content['firma'],   $arrParam);
+         $arrParam = str_ireplace('%spendendatum%',   $content['firma'],   $arrParam);
 		}
 
 		private function spenden_footer($month) {

@@ -8,67 +8,31 @@ function gk_insert_pdf_header() {
 }
 
 /**
- * implementation of hook_perm
- */
-function gk_perm() {
-	return array (
-		'send Serienbrief'
-		);
-}
-
-/**
  * implementation of hook_menu
  */
 function gk_menu() {
-   $items['gk/print_serienbrief/%'] = array (
-      'page callback' => 'gk_serienbrief_callback',
-      'page arguments' => array (
-         2
-      ),
-      'type' => MENU_CALLBACK,
-      'access arguments' => array (
-         'send Serienbrief'
-      ),
-
-
-   );
+   // Formular um Listen, Berichte und Serienbriefe zu erstellen
    $items['gk/liste_erstellen'] = array(
       'page callback'	=>	'gk_serienbrief_callback',
       'type'	=>	MENU_CALLBACK,
-      'access arguments'	=>	array(
-         'send Serienbrief',
-      )
+      'access arguments'	=>	array('send Serienbrief',)
    );
-
-   $items['gk/import'] = array(
-      'page callback'	=>	'gk_import',
-      'type'	=>	MENU_CALLBACK,
-      'access arguments' =>	array(
-         'send Serienbrief',
-      ),
-   );
-
-   $items['gk/delete_all'] = array(
-      'page callback'	=>	'gk_delete_all',
-      'type' =>	MENU_CALLBACK,
-      'access arguments' =>	array(
-         'send Serienbrief',
-      ),
-      'page arguments' => array(2),
-   );
-
-   $items['gk/mark_inactive'] = array(
-      'page callback'	=>	'gk_mark_inactive',
-      'type'	=>	MENU_CALLBACK,
-      'access arguments'	=>	array('send Serienbrief'),
-   );
-
+   // Startseite mit Übersicht über alle Spenden
    $items['gk/overview'] = array(
       'page callback' => 'gk_overview',
       'type' => MENU_CALLBACK,
       'access arguments' => array('send Serienbrief'),
    );
    return $items;
+}
+
+/**
+ * implementation of hook_perm
+ */
+function gk_perm() {
+	return array (
+		'send Serienbrief'
+		);
 }
 
 /*
@@ -123,7 +87,7 @@ function gk_overview(){
 	$month1_a = array();
 	$month1_b = array();
 	$rows = array();
-	for($i=0;$i<24;$i++){ 
+	for($i=0;$i<24;$i++){
 		$month = date("n",time())-$i;
 		$year = date("Y",time());
 		if($month<=0){$month=12+$month;$year--;}	// Vor Januar kommt Dezember; zustäzl. Jahreswechsel
@@ -155,39 +119,6 @@ function gk_overview(){
 	return $out;
 }
 
-
-/**
- * Callback function to find all the inactive spenders
- *
- */
-function gk_mark_inactive(){
-	$sql = "SELECT nid FROM {node} WHERE type='%s'";
-	$result = db_query($sql,'profile');
-	$acitve = 0;
-	$inactive = 0;
-	while($row = db_fetch_object($result)){
-		$node = node_load($row->nid);
-
-		if(count($node->taxonomy) < 1){//this use belongs to no group -> inactive
-			$dbObject = array(
-			'field_profil_inaktiv_value' => 'Inaktiv',
-			'nid'	=>	$node->nid,
-			);
-			drupal_write_record('content_type_profile',$dbObject,'nid');
-			$inactive++;
-		}
-		else{
-			$dbObject = array(
-			'field_profil_inaktiv_value' => 'Aktiv',
-			'nid'	=>	$node->nid,
-			);
-			drupal_write_record('content_type_profile',$dbObject,'nid');
-			$acitve++;
-		}
-	}
-	drupal_set_message($acitve . ' set to active. ' . $inactive . ' set to inactive');
-	drupal_goto('gk/import');
-}
 
 
 
@@ -308,9 +239,7 @@ function gk_serienbrief_taxonomy_form() {
 			'0' => t('Nein'),
 		),
 		'#description'	=>	t('Dieses Feature funktioniert nur f&uuml;r Spendenlisten. Spendenlisten f&uuml;r
-							   Serienbriefe werden immer kumuliert.'),
-
-
+							   Serienbriefe werden immer kumuliert.')
 	);
 
 
@@ -322,10 +251,7 @@ function gk_serienbrief_taxonomy_form() {
 			'2' => t('Adressen (Excel export)'),
 			'3' => t('Adressetiketten'),
 			'4' => t('Spendenliste')
-	),
-
-
-	);
+	));
 
    // Template Vorlage
 	$sql = "SELECT * FROM {node} WHERE type = '%s'";
@@ -342,7 +268,6 @@ function gk_serienbrief_taxonomy_form() {
 		'#default_value' => 11882
 
 	);
-
 
 	$def_datum = date('m.Y', time()-30*24*60*60);
 	$form['date_von'] = array (
@@ -440,7 +365,7 @@ function _gk_transform_date($str_date) {
 			$out = $tmp.'T00:00:00';
 			break;
 		case 'year':
-			$tmp = $ar_tmp[0].'-01-00'; 
+			$tmp = $ar_tmp[0].'-01-00';
 			$out = $tmp.'T00:00:00';
 			break;
 		default :

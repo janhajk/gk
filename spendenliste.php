@@ -114,8 +114,7 @@ function _gk_generate_spendenliste($form, &$form_state){
    error_log($sql);
    error_log(print_r($values,1));
 	$result = db_query($sql, $values);
-   dsm($sql);dsm($values);
-	$rows = array();
+   $rows = array();
 	while($row = db_fetch_array($result)){
 		$row['terms'] = gk_get_terms_for_node($row['field_spende_spender_nid']);
 		if($form_state['values']['kumulieren'] == '1'){
