@@ -159,10 +159,13 @@ function _gk_send_serienbrief_general($form, & $form_state){
 		
 		$rows[$i]['field_spende_betrag_value'] = $row_sp['sum(field_spende_betrag_value)'];
 		$rows[$i]['terms'] = gk_get_terms_for_node($row['nid']);
+      $rows[$i]['spendendatum_von'] = $form_state['values']['date_von'];
+      $rows[$i]['spendendatum_bis'] = $form_state['values']['date_bis'];
 		$i++;
 	}
 
 	$template_param = _gk_get_template_param($form_state['values']['serienbrief']);
+   
 
 	$pdf = new Gkpdf();
 	$pdf->setTemplate($template_param);
