@@ -62,7 +62,7 @@ if (!class_exists('GKPDF')) {
 
 		/**
 		 * set the rows from the db, containing the profile information and
-		 * the betrag 
+		 * the betrag
 		 */
 		public function setRows($arrRows){
 			// folgender Vorgang ist notwendig, um die Briefe nach dem Betrag zu sortieren
@@ -310,7 +310,7 @@ if (!class_exists('GKPDF')) {
 			$this->pdf->SetY($y);
 			$string .= ($content['firma']!='')?$content['firma']."\n":'';
 			$string .= ($content['zusatz']!='')?$content['zusatz']."\n":'';
-			$string .= ($content['anrede']!='' && $content['vorname'].$content['nachname']!='')?$content['anrede']."\n":'';
+			//$string .= ($content['anrede']!='' && $content['vorname'].$content['nachname']!='')?$content['anrede']."\n":'';
 			$string .= ($content['vorname'].$content['nachname']!='')?$content['vorname'] . ' ' . $content['nachname']."\n":'';
 			$string .= ($content['strasse']!='')?$content['strasse']."\n":'';
 			$string .= ($content['plz'].$content['ort']!='')?$content['plz'] . ' ' . $content['ort']."\n":'';
